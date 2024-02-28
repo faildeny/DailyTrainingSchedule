@@ -1,10 +1,15 @@
-# DailyTrainingSchedule
-Callback to pause Pytorch training during certain hours or days of a week.
+# In this example, the model will train in intervals (21:00-8:00) from Monday to Friday (5 days) and will
+# continue training without sleeping on Saturday and Sunday
+# The callback can be used with Pytorch and PyTorch Lightning
 
-When in sleep, the GPU memory will continue to be allocated, but it will stay silent and will require small amount of power.
+
+from datetime import datetime
+import time
+
+import pytorch_lightning as pl
+from pytorch_lightning.callbacks import Callback
 
 
-```python
 class TimeScheduleSleep(Callback):
     """
     Sleeps the training process during specified hours of the day
@@ -45,4 +50,7 @@ class TimeScheduleSleep(Callback):
                 time.sleep(time_to_sleep * 60 * 60)
 
 
-```
+# Sample usage
+
+# time_schedule_sleep = TimeScheduleSleep(8, 21, 5)
+# trainer = pl.Trainer(gpus=gpus, callbacks=[time_schedule_sleep])
